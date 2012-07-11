@@ -3,7 +3,7 @@
 %global build_shared 1
 Name:       florist    
 Version:    2011
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    Open-source implementation of IEEE Standard 1003.5b-1996
 Group:      Development/Libraries
 License:    GPLv2+
@@ -88,6 +88,9 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 %endif
 
 %changelog
+* Wed Jul 11 2012 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-8
+- Fix optflags
+
 * Tue Jan 10 2012 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-7
 - Rebuild for new GCC-4.7
 

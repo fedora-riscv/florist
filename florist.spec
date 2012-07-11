@@ -49,8 +49,8 @@ autoconf
 %else
 %configure --disable-shared
 %endif
-export GNATOPTFLAGS="%GNAT_builder_flags"
-make %{?_smp_mflags}
+##%% export GNATOPTFLAGS="%GNAT_builder_flags"
+make %{?_smp_mflags} GCCFLAGS='%{optflags}' GNATOPTFLAGS='%{GPRbuild_optflags}'
 
 
 %install

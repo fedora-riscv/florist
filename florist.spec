@@ -3,7 +3,7 @@
 %global build_shared 1
 Name:       florist    
 Version:    2011
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    Open-source implementation of IEEE Standard 1003.5b-1996
 Group:      Development/Libraries
 License:    GPLv2+
@@ -88,6 +88,9 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 %endif
 
 %changelog
+* Sat Jan 26 2012 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-8
+- Rebuild with new GCC-.48
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2011-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

@@ -88,7 +88,7 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 %endif
 
 %changelog
-* Sat Jan 26 2012 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-8
+* Sat Jan 26 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-8
 - Rebuild with new GCC-.48
 
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2011-8

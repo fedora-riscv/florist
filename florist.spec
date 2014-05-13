@@ -3,7 +3,7 @@
 %global build_shared 1
 Name:       florist    
 Version:    2011
-Release:    12%{?dist}
+Release:    13%{?dist}
 Summary:    Open-source implementation of IEEE Standard 1003.5b-1996
 Group:      Development/Libraries
 License:    GPLv2+
@@ -18,7 +18,7 @@ BuildRequires:    fedora-gnat-project-common >= 2
 BuildRequires:  chrpath gprbuild autoconf gcc-gnat
 
 # gcc-gnat only available on these:
-ExclusiveArch: %{ix86} x86_64 ia64 ppc ppc64 alpha
+ExclusiveArch: %{GNAT_arches}
 
 
 %description
@@ -88,6 +88,9 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 %endif
 
 %changelog
+* Tue May 13 2014 Peter Robinson <pbrobinson@fedoraproject.org> 2011-13
+- Use GNAT_arches rather than an explicit list
+
 * Wed May  7 2014 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-12
 - Rebuild with new libgnat
 

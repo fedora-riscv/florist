@@ -1,3 +1,5 @@
+%undefine _hardened_build
+
 ## rpmbuild cannot create debuginfo
 ## for ada packages 
 %global build_shared 1

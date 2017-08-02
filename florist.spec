@@ -5,7 +5,7 @@
 %global build_shared 1
 Name:       florist    
 Version:    2011
-Release:    21%{?dist}
+Release:    22%{?dist}
 Summary:    Open-source implementation of IEEE Standard 1003.5b-1996
 Group:      Development/Libraries
 License:    GPLv2+
@@ -90,6 +90,9 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 %endif
 
 %changelog
+* Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2011-22
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2011-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 

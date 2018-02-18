@@ -1,0 +1,17 @@
+-- Projects that use Florist should import this file.
+-- Copyright 2018 B. Persson, Bjorn@Rombobeorn.se
+--
+-- This file is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 2 of the License, or
+-- (at your option) any later version.
+
+with "directories";
+library project Florist is
+   for Library_Name     use "florist";
+   for Library_Kind     use "relocatable";
+   for Source_Dirs      use (Directories.Includedir & "/florist");
+   for Library_Dir      use Directories.Libdir;
+   for Library_ALI_Dir  use Directories.Libdir & "/florist";
+   for Externally_Built use "true";
+end Florist;

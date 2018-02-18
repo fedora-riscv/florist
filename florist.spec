@@ -1,97 +1,97 @@
-%undefine _hardened_build
+Name:           florist
+Version:        2017
+Release:        1%{?dist}
+Summary:        Open Source implementation of the POSIX Ada Bindings
+Group:          System Environment/Libraries
+License:        GPLv2+
+URL:            https://www.adacore.com/download/more
+Source:         http://mirrors.cdn.adacore.com/art/591c45e2c7a447af2deed009#/florist-gpl-2017-src.tar.gz
+# The long hexadecimal number is what identifies the file on the server.
+# Don't forget to update it!
+Source2:        florist.gpr
+# adaptation to an API change in System.Soft_Links:
+Patch1:         florist-2017-gcc8.patch
 
-## rpmbuild cannot create debuginfo
-## for ada packages 
-%global build_shared 1
-Name:       florist    
-Version:    2011
-Release:    23%{?dist}
-Summary:    Open-source implementation of IEEE Standard 1003.5b-1996
-Group:      Development/Libraries
-License:    GPLv2+
-## Direct download not available
-URL:        http://libre.adacore.com/libre/download2
-Source0:    %{name}-gpl-%{version}-src.tgz
-## Email ID : 20110802184724.GA8621@work.zhukoff.net
-Patch0:     %{name}-shared.patch
-## Fedora specific 
-Patch3:     %{name}-fedora.patch
-BuildRequires:  fedora-gnat-project-common >= 2
-BuildRequires:  chrpath gprbuild autoconf gcc-gnat
+BuildRequires:  fedora-gnat-project-common
+BuildRequires:  gprbuild gcc-gnat
+BuildRequires:  make
+# Build only on architectures where GPRbuild is available:
+ExclusiveArch:  %{GPRbuild_arches}
 
-# gcc-gnat only available on these:
-ExclusiveArch: %GPRbuild_arches
-
-
-%description
-FLORIST is an implementation of the IEEE Standards 1003.5: 1992, 
-IEEE STD 1003.5b: 1996, and parts of IEEE STD 1003.5c: 1998, 
-also known as the POSIX Ada Bindings. Using this library, 
+%global common_description_en \
+Florist is an implementation of the IEEE Standards 1003.5: 1992, \
+IEEE STD 1003.5b: 1996, and parts of IEEE STD 1003.5c: 1998, \
+also known as the POSIX Ada Bindings. Using this library, \
 you can call operating system services from within Ada programs.
 
+%description %{common_description_en}
+
+
 %package devel
-Summary:    Devel package for florist
+Summary:    Development files for Florist
 Group:      Development/Libraries
 License:    GPLv2+
-Requires:   fedora-gnat-project-common >= 2
+Requires:   fedora-gnat-project-common
 Requires:   %{name}%{?_isa} = %{version}-%{release}
 
-%description devel 
-%{summary}
+%description devel %{common_description_en}
+
+The florist-devel package contains source code and linking information for
+developing applications that use Florist.
+
 
 %prep
-%setup -q -n %{name}-gpl-%{version}-src
-%patch0 -p1 
-%patch3 -p1
+%autosetup -n %{name}-gpl-%{version}-src -p0
+
 
 %build
-autoconf
-%if %{build_shared}
 %configure --enable-shared
-%else
-%configure --disable-shared
-%endif
-##%% export GNATOPTFLAGS="%GNAT_builder_flags"
-make %{?_smp_mflags} GCCFLAGS='%{optflags}' GNATOPTFLAGS='%{GPRbuild_optflags}'
+make %{?_smp_mflags} GCCFLAGS='%{optflags}' \
+     GPRBUILD_FLAGS='%{GPRbuild_optflags} -XLIBRARY_TYPE=relocatable' TARGET=
 
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot} ADA_PROJECT_PATH="%_GNAT_project_dir" LIBDIR=%{_libdir}
-%if %{build_shared}
-chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so.%{version}
-chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
-%endif
+# The easiest way to collect all the files seems to be to ignore the inadequate
+# Make rule and invoke GPRinstall directly.
+gprinstall -p -m -Pflorist -XLIBRARY_TYPE=relocatable \
+           --prefix='%{buildroot}%{_prefix}' \
+           --link-lib-subdir=%{buildroot}%{_libdir} \
+           --lib-subdir=%{buildroot}%{_libdir}/%{name}
+chmod 444 %{buildroot}%{_libdir}/%{name}/*.ali
+cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
+# GPRinstall's manifest files are architecture-specific because they contain
+# what seems to be checksums of architecture-specific files, so they must not
+# be under _datadir. Their function is apparently undocumented, but my crystal
+# ball tells me that they're used when GPRinstall uninstalls or upgrades
+# packages. The manifest file is therefore irrelevant in this RPM package, so
+# delete it.
+rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 
-%post -p /sbin/ldconfig
 
-%postun -p /sbin/ldconfig
+%check
+%{_rpmconfigdir}/check-rpaths
+
 
 %files
-%defattr(-,root,root,-)
-%doc README INSTALL
+%doc README
+%license COPYING
+# There is a COPYING3 in the 2017 tarball, but the source files' headers say
+# version 2 or later, so COPYING3 is left out of the package for now.
 %dir %{_libdir}/%{name}
-%if %{build_shared}
-%{_libdir}/%{name}/libflorist.so.2011
-%{_libdir}/libflorist.so.2011
-%else
-%{_libdir}/%{name}/libflorist.a
-%endif
+%{_libdir}/%{name}/libflorist.so.1
+%{_libdir}/libflorist.so.1
 
 %files devel
-%defattr(-,root,root,-)
-%doc CHANGE_172259
-%{_libdir}/%{name}/*.ali
-%{_includedir}/%{name}
 %{_GNAT_project_dir}/%{name}.gpr
-%if %{build_shared}
+%{_includedir}/%{name}
+%{_libdir}/%{name}/*.ali
 %{_libdir}/%{name}/libflorist.so
 %{_libdir}/libflorist.so
-%endif
+
 
 %changelog
-* Wed Feb 07 2018 Pavel Zhukov <landgraf@fedoraproject.org - 2011-23
-- rebuilt
+* Sun Feb 18 2018 Björn Persson <Bjorn@Rombobjörn.se> - 2017-1
+- Upgraded to version 2017.
 
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2011-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
@@ -129,7 +129,7 @@ chrpath --delete %{buildroot}/%{_libdir}/%{name}/libflorist.so
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2011-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
-* Wed Jan 31 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-10
+* Wed Jan 30 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-10
 - Add gcc-gnat to BR
 
 * Sat Jan 26 2013 Pavel Zhukov <landgraf@fedoraproject.org> - 2011-9

@@ -2,7 +2,6 @@ Name:           florist
 Version:        2017
 Release:        2%{?dist}
 Summary:        Open Source implementation of the POSIX Ada Bindings
-Group:          System Environment/Libraries
 License:        GPLv2+
 URL:            https://www.adacore.com/download/more
 Source:         http://mirrors.cdn.adacore.com/art/591c45e2c7a447af2deed009#/florist-gpl-2017-src.tar.gz
@@ -29,7 +28,6 @@ you can call operating system services from within Ada programs.
 
 %package devel
 Summary:    Development files for Florist
-Group:      Development/Libraries
 License:    GPLv2+
 Requires:   fedora-gnat-project-common
 Requires:   %{name}%{?_isa} = %{version}-%{release}

@@ -1,6 +1,6 @@
 Name:           florist
 Version:        2017
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Open Source implementation of the POSIX Ada Bindings
 License:        GPLv2+
 URL:            https://www.adacore.com/download/more
@@ -88,6 +88,9 @@ rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2017-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Tue Feb 12 2019 Björn Persson <Bjorn@Rombobjörn.se> - 2017-4
 - Built for x86.
 

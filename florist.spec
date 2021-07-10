@@ -66,10 +66,6 @@ cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
 rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 
 
-%check
-%{_rpmconfigdir}/check-rpaths
-
-
 %files
 %doc README
 %license COPYING

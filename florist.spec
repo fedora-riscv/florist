@@ -38,6 +38,12 @@ The florist-devel package contains source code and linking information for
 developing applications that use Florist.
 
 
+# A workaround to avoid triggering an infinite loop in GCC 12:
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104366
+# https://bugzilla.redhat.com/show_bug.cgi?id=2041667
+%global build_adaflags %{build_adaflags} -fno-lto
+
+
 %prep
 %autosetup -n %{name}-gpl-%{version}-src -p0
 
@@ -84,8 +90,8 @@ rm -rf %{buildroot}%{_GNAT_project_dir}/manifests
 
 
 %changelog
-* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-12
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+* Thu Feb 03 2022 Björn Persson <Bjorn@Rombobjörn.se> - 2017-12
+- Added a workaround to be able to build with GCC 12 prerelease.
 
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2017-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild

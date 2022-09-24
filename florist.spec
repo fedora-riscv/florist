@@ -31,6 +31,10 @@ you can call operating system services from within Ada programs.
 %description %{common_description_en}
 
 
+#################
+## Subpackages ##
+#################
+
 %package devel
 Summary:    Development files for Florist
 Requires:   fedora-gnat-project-common
@@ -42,15 +46,28 @@ The florist-devel package contains source code and linking information for
 developing applications that use Florist.
 
 
+#############
+## Prepare ##
+#############
+
 %prep
 %autosetup -p1
 
+
+###########
+## Build ##
+###########
 
 %build
 %configure --enable-shared
 
 make %{?_smp_mflags} GPRBUILD_FLAGS='%{GPRbuild_optflags} -XLIBRARY_TYPE=relocatable' \
      GCCFLAGS='%{build_cflags}' VERSION=%{version} TARGET=
+
+
+#############
+## Install ##
+#############
 
 %install
 
@@ -81,6 +98,10 @@ sed --regexp-extended --in-place \
 #    Directories.Libdir.
 
 
+###########
+## Files ##
+###########
+
 %files
 %doc README
 %license COPYING
@@ -95,6 +116,10 @@ sed --regexp-extended --in-place \
 %{_libdir}/lib%{name}.so
 
 
+###############
+## Changelog ##
+###############
+
 %changelog
 * Fri Sep 23 2022 Dennis van Raaij <dvraaij@fedoraproject.org> - 2:22.0.0-1
 - Updated to v22.0.0, using the archive available on GitHub.
@@ -105,6 +130,7 @@ sed --regexp-extended --in-place \
 - Fixed the symbolic links for the shared libraries.
 - Made the generated usage project file architecture-independent.
 - Removed license from devel subpackage; inherit from main package.
+- Improved spec file readability.
 
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild

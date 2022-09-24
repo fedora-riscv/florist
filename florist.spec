@@ -15,11 +15,10 @@ License:        GPLv2+ with exceptions
 URL:            https://github.com/%{upstream_owner}/%{upstream_name}
 Source:         %{url}/archive/%{upstream_gittag}/%{upstream_name}-%{upstream_version}.tar.gz
 
-Source2:        florist.gpr
 
 BuildRequires:  fedora-gnat-project-common
 BuildRequires:  gprbuild gcc-gnat
-BuildRequires:  make
+BuildRequires:  make sed
 # Build only on architectures where GPRbuild is available:
 ExclusiveArch:  %{GPRbuild_arches}
 
@@ -64,7 +63,23 @@ gprinstall %{GPRinstall_flags} --no-manifest --no-build-var \
 # Fix up some things that GPRinstall does wrong.
 ln --symbolic --force lib%{name}.so.1 %{buildroot}%{_libdir}/lib%{name}.so
 
-cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
+# Make the generated usage project file architecture-independent.
+sed --regexp-extended --in-place \
+    '--expression=1i with "directories";' \
+    '--expression=/^--  This project has been generated/d' \
+    '--expression=s|^( *for +Source_Dirs +use +).*;$|\1(Directories.Includedir \& "/%{name}");|i' \
+    '--expression=s|^( *for +Library_Dir +use +).*;$|\1Directories.Libdir;|i' \
+    '--expression=s|^( *for +Library_ALI_Dir +use +).*;$|\1Directories.Libdir \& "/%{name}";|i' \
+    %{buildroot}%{_GNAT_project_dir}/%{name}*.gpr
+# The Sed commands are:
+# 1: Insert a with clause before the first line to import the directories
+#    project.
+# 2: Delete a comment that mentions the architecture.
+# 3: Replace the value of Source_Dirs with a pathname based on
+#    Directories.Includedir.
+# 4: Replace the value of Library_Dir with Directories.Libdir.
+# 5: Replace the value of Library_ALI_Dir with a pathname based on
+#    Directories.Libdir.
 
 
 %files
@@ -89,6 +104,7 @@ cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
 - Removed patch florist-2017-gcc8; has been fixed upstream (commit: 0bfc497).
 - License fields now contain SPDX license expressions.
 - Fixed the symbolic links for the shared libraries.
+- Made the generated usage project file architecture-independent.
 
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild

@@ -61,6 +61,9 @@ gprinstall %{GPRinstall_flags} --no-manifest --no-build-var \
            -XLIBRARY_TYPE=relocatable \
            florist.gpr
 
+# Fix up some things that GPRinstall does wrong.
+ln --symbolic --force lib%{name}.so.1 %{buildroot}%{_libdir}/lib%{name}.so
+
 cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
 
 
@@ -85,6 +88,7 @@ cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
 - Changed the epoch to 2 instead of 1 for consistency with the GNATcoll packages.
 - Removed patch florist-2017-gcc8; has been fixed upstream (commit: 0bfc497).
 - License fields now contain SPDX license expressions.
+- Fixed the symbolic links for the shared libraries.
 
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild

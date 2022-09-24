@@ -33,7 +33,6 @@ you can call operating system services from within Ada programs.
 
 %package devel
 Summary:    Development files for Florist
-License:    GPLv2+ with exceptions
 Requires:   fedora-gnat-project-common
 Requires:   %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 
@@ -105,6 +104,7 @@ sed --regexp-extended --in-place \
 - License fields now contain SPDX license expressions.
 - Fixed the symbolic links for the shared libraries.
 - Made the generated usage project file architecture-independent.
+- Removed license from devel subpackage; inherit from main package.
 
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild

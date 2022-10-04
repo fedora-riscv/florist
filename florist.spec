@@ -9,8 +9,8 @@ Epoch:          2
 Version:        %{upstream_version}
 Release:        1%{?dist}
 Summary:        Open Source implementation of the POSIX Ada Bindings
-License:        GPLv2+
 
+License:        GPLv2+ with exceptions
 
 URL:            https://github.com/%{upstream_owner}/%{upstream_name}
 Source:         %{url}/archive/%{upstream_gittag}/%{upstream_name}-%{upstream_version}.tar.gz
@@ -34,7 +34,7 @@ you can call operating system services from within Ada programs.
 
 %package devel
 Summary:    Development files for Florist
-License:    GPLv2+
+License:    GPLv2+ with exceptions
 Requires:   fedora-gnat-project-common
 Requires:   %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 
@@ -84,6 +84,7 @@ cp -p %{SOURCE2} %{buildroot}%{_GNAT_project_dir}
 - Changed the epoch to mark the new upstream version scheme.
 - Changed the epoch to 2 instead of 1 for consistency with the GNATcoll packages.
 - Removed patch florist-2017-gcc8; has been fixed upstream (commit: 0bfc497).
+- License fields now contain SPDX license expressions.
 
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2017-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild

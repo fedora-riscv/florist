@@ -15,6 +15,15 @@ License:        GPLv2+ with exceptions
 URL:            https://github.com/%{upstream_owner}/%{upstream_name}
 Source:         %{url}/archive/%{upstream_gittag}/%{upstream_name}-%{upstream_version}.tar.gz
 
+# The following patches have been downloaded from a fork of Florist that
+# continued public maintenance of the library while it was not available through
+# AdaCore's GitHub page. See the patch files for details.
+
+# [Bugfix] https://github.com/AdaCore/florist/issues/6
+Patch:          %{name}-fix-locking-full-size-file-even-when-growing.patch
+# [Bugfix] https://github.com/AdaCore/florist/issues/7
+Patch:          %{name}-fix-number-of-elements-to-write.patch
+
 
 BuildRequires:  fedora-gnat-project-common
 BuildRequires:  gprbuild gcc-gnat

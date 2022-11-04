@@ -133,7 +133,6 @@ sed --regexp-extended --in-place \
 - Changed the epoch to mark the new upstream version scheme.
 - Changed the epoch to 2 instead of 1 for consistency with the GNATcoll packages.
 - Removed patch florist-2017-gcc8; has been fixed upstream (commit: 0bfc497).
-- License fields now contain SPDX license expressions.
 - Fixed the symbolic links for the shared libraries.
 - Made the generated usage project file architecture-independent.
 - Removed license from devel subpackage; inherit from main package.

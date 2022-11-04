@@ -24,7 +24,6 @@ Patch:          %{name}-fix-locking-full-size-file-even-when-growing.patch
 # [Bugfix] https://github.com/AdaCore/florist/issues/7
 Patch:          %{name}-fix-number-of-elements-to-write.patch
 
-
 BuildRequires:  fedora-gnat-project-common
 BuildRequires:  gprbuild gcc-gnat
 BuildRequires:  make sed
@@ -70,7 +69,7 @@ developing applications that use Florist.
 %build
 %configure --enable-shared
 
-make %{?_smp_mflags} GPRBUILD_FLAGS='%{GPRbuild_optflags} -XLIBRARY_TYPE=relocatable' \
+%{make_build} GPRBUILD_FLAGS='%{GPRbuild_optflags} -XLIBRARY_TYPE=relocatable' \
      GCCFLAGS='%{build_cflags}' VERSION=%{version} TARGET=
 
 
@@ -79,7 +78,6 @@ make %{?_smp_mflags} GPRBUILD_FLAGS='%{GPRbuild_optflags} -XLIBRARY_TYPE=relocat
 #############
 
 %install
-
 # Use GPRinstall directly to have full control over the installation.
 gprinstall %{GPRinstall_flags} --no-manifest --no-build-var \
            -XLIBRARY_TYPE=relocatable \

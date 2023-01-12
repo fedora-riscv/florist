@@ -14,7 +14,12 @@ License:        GPLv2+ with exceptions
 
 URL:            https://github.com/%{upstream_owner}/%{upstream_name}
 Source:         %{url}/archive/%{upstream_gittag}/%{upstream_name}-%{upstream_version}.tar.gz
+
+# C 99 compatibility in the configure script, submitted upstream:
+# https://github.com/AdaCore/florist/pull/10
 Patch0:         florist-configure-c99.patch
+# C 99 compatibility in c-posix.c, backported:
+# https://github.com/AdaCore/florist/commit/e6c2f95ff8ae426c3d832f23aa80bcda82dcfa5c
 Patch1:         florist-c99.patch
 
 # The following patches have been downloaded from a fork of Florist that

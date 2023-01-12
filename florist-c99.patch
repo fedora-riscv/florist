@@ -1,0 +1,37 @@
+Include <ctype.h> for the toupper function/macro.  This avoids an
+implicit function declaration and build failures with future
+compilers.
+
+Fixed upstream via:
+
+commit e6c2f95ff8ae426c3d832f23aa80bcda82dcfa5c
+Author: Piotr Trojanek <trojanek@adacore.com>
+Date:   Thu Jun 16 13:47:37 2022 +0200
+
+    Fix warning about implicit declaration of toupper
+    
+    On a modern Linux we were getting these messages:
+    
+      c-posix.c:1848:49: warning: implicit declaration of function 'toupper'
+                         note: include '<ctype.h>'
+                               or provide a declaration of 'toupper'
+    
+    Indeed, POSIX says this routine is provided by <ctype.h>, so including this
+    header should not cause any portability issues.
+    
+    no-tn-check
+    
+    Change-Id: I08b07d936f6e62956c12b0aa21e665aa2fb4e601
+
+diff --git a/c-posix.c b/c-posix.c
+index 25c12d729b047dc4..360a399e589f2b2a 100644
+--- a/c-posix.c
++++ b/c-posix.c
+@@ -54,6 +54,7 @@
+  */
+ 
+ #include "confsrc/pconfig.h"
++#include <ctype.h>
+ #include <errno.h>
+ #include <stdarg.h>
+ #include <string.h>

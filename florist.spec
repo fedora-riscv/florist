@@ -34,8 +34,6 @@ Patch:          %{name}-fix-number-of-elements-to-write.patch
 BuildRequires:  fedora-gnat-project-common
 BuildRequires:  gprbuild gcc-gnat
 BuildRequires:  make sed
-# Build only on architectures where GPRbuild is available:
-ExclusiveArch:  %{GPRbuild_arches}
 
 %global common_description_en \
 Florist is an implementation of the IEEE Standards 1003.5: 1992, \

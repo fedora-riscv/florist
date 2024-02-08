@@ -7,7 +7,7 @@
 Name:           florist
 Epoch:          2
 Version:        %{upstream_version}
-Release:        8%{?dist}
+Release:        8.rv64%{?dist}
 Summary:        Open Source implementation of the POSIX Ada Bindings
 
 License:        GPL-2.0-or-later WITH GNAT-exception
@@ -35,7 +35,7 @@ BuildRequires:  fedora-gnat-project-common
 BuildRequires:  gprbuild gcc-gnat
 BuildRequires:  make sed
 # Build only on architectures where GPRbuild is available:
-ExclusiveArch:  %{GPRbuild_arches}
+ExclusiveArch:  %{GPRbuild_arches} riscv64
 
 %global common_description_en \
 Florist is an implementation of the IEEE Standards 1003.5: 1992, \
